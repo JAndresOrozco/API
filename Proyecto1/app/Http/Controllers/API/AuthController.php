@@ -89,19 +89,20 @@ class AuthController extends Controller
             );
             $client = new \GuzzleHttp\Client(['base_uri' => 'http://127.0.0.1:3333/api/v1']);
             $response = $client->post('http://127.0.0.1:3333/api/v1/login',
-            [
-                'form_params' => $body
-                ]);
+            [ 'form_params' => $body ]);
                 
-                $var = $response->getBody();
+                $res= (string) $response->getBody();
+                $json = json_decode($res);
+                $var = $json ->token;
 
             $token =Str::random(60);
             $request->user()->forceFill([
                 'api_token'=>hash('sha256',$token),
                 'token_adonis' => $var
+
             ])->save();
             
-            return array('token' => $token);
+            return array('tokenlaravel' => $token);
             
         }
         \Abort(401);

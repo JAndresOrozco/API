@@ -47,20 +47,20 @@ class AuthController {
       return response.status(200).json( await User.all())
   }
   
-      async hola({response}){
-        return response.status(200).json({'msg':'Hola Mundo'})
-      }
+      // async hola({response}){
+      //   return response.status(200).json({'msg':'Hola Mundo'})
+      // }
       
-      async loginall({request,response,auth}){
-        let objeto = request.all();
-        try{
-          const token = await auth.attempt(objeto.email, objeto.password);
-          return response.status(201).json(token);
-        }catch(error){
-          return response.status(401).json({mensaje:'peligro', error:error});
+      // async loginall({request,response,auth}){
+      //   let objeto = request.all();
+      //   try{
+      //     const token = await auth.attempt(objeto.email, objeto.password);
+      //     return response.status(201).json(token);
+      //   }catch(error){
+      //     return response.status(401).json({mensaje:'peligro', error:error});
         
-        }
-      }
+      //   }
+      // }
   }
 
 module.exports = AuthController

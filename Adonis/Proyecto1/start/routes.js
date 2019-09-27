@@ -25,7 +25,7 @@ Route.post('/register', 'AuthController.register')
 Route.post('/login', 'AuthController.login')
 Route.post('/logout', 'AuthController.logout').middleware(['auth']);
 Route.post('/todo', 'AuthController.toDo').middleware(['auth','checkUserIsAdmin']);
-Route.post('/loginall', 'AuthController.loginall')
+// Route.post('/loginall', 'AuthController.loginall')
 
 }).prefix('api/v1')
 

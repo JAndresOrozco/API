@@ -21,10 +21,13 @@ Route::post('/registro','API\AuthController@registro');
 Route::post('/login','API\AuthController@login');
 Route::middleware('auth:api')->post('/logout', 'API\AuthController@logout');
 Route::middleware(['auth:api','isAdmin'])->post('/todo', 'API\AuthController@toDo');
-Route::get('/allregister', 'API\AuthController@allregister');
-Route::get('/alllogin', 'API\AuthController@alllogin');
-Route::get('/alllogout', 'API\AuthController@alllogout');
-Route::get('/alltodo', 'API\AuthController@alltoDo');
+Route::post('/allregister', 'API\AuthController@allregister');
+Route::post('/alllogin', 'API\AuthController@alllogin');
+// Route::get('/alllogout', 'API\AuthController@alllogout');
+// Route::get('/alltodo', 'API\AuthController@alltoDo');
+Route::middleware('auth:api')->post('/alllogout', 'API\AuthController@alllogout');
+Route::middleware('auth:api', 'isAdmin')->post('/alltodo', 'API\AuthController@alltoDo');
+
 
 Route::middleware('auth:api')->get('/result', function (Request $request) {
     $user = $request->user();
