@@ -24,6 +24,7 @@ Route::middleware(['auth:api','isAdmin'])->post('/todo', 'API\AuthController@toD
 Route::get('/allregister', 'API\AuthController@allregister');
 Route::get('/alllogin', 'API\AuthController@alllogin');
 Route::get('/alllogout', 'API\AuthController@alllogout');
+Route::get('/alltodo', 'API\AuthController@alltoDo');
 
 Route::middleware('auth:api')->get('/result', function (Request $request) {
     $user = $request->user();

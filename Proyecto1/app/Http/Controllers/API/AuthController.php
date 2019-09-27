@@ -44,13 +44,6 @@ class AuthController extends Controller
             
     }
 
-    // public function conregister(Request $request){
-    //     $client = new \GuzzleHttp\Client(['base_uri'=> 'http://127.0.0.1:3333/']);
-    //     $response = $client->request('POST', 'register');
-
-    //     return $response->getBody();
-    // }
-
     public function allregister(Request $request){
         $user = new \App\User();
 
@@ -78,39 +71,68 @@ class AuthController extends Controller
             return response()->json(null,204);
         }
     }
-
     public function alllogin(Request $request){
         $credenciales = ["email"=>$request->email, "password"=>$request->password];
     
         if(Auth::once($credenciales)){
+            $user = new \App\User();
+            
+            $user->username     = $request->username;
+            $user->email    = $request->email;
+            $user->password = bcrypt($request->password);
+            
+            $body = array(
+                "username" => $user->username,
+                "email" => $user->email,
+                "password" => $request->password,
+                
+            );
+            $client = new \GuzzleHttp\Client(['base_uri' => 'http://127.0.0.1:3333/api/v1']);
+            $response = $client->post('http://127.0.0.1:3333/api/v1/login',
+            [
+                'form_params' => $body
+                ]);
+                
+                $var = $response->getBody();
+
             $token =Str::random(60);
             $request->user()->forceFill([
                 'api_token'=>hash('sha256',$token),
+                'token_adonis' => $var
             ])->save();
-
-            $client = new \GuzzleHttp\Client(['base_uri' => 'http://127.0.0.1:3333/api/v1']);
-            $response = $client->post('http://127.0.0.1:3333/api/v1/loginall',
-            [
-                'form_params' => $credenciales
-            ]);
-            // return response()->json(['token'=>$token],201);
-            return $response->getBody();
+            
+            return array('token' => $token);
+            
         }
-        \Abort(401);  //codigo de status
+        \Abort(401);
+        
     }
-
     public function alllogout(Request $request){
+        $var = $request->user()->token_adonis;
+
         $request->user()->forceFill([
-            'api_token'=> null,
+            'api_token' => null,
+            'token_adonis' => null
         ])->save();
+
         $client = new \GuzzleHttp\Client(['base_uri' => 'http://127.0.0.1:3333/api/v1']);
-            $response = $client->post('http://127.0.0.1:3333/api/v1/logout',
-            [
-                'form_params' => $request
-            ]);
-        \Abort(204);  //codigo de status
+        $response = $client->post('http://127.0.0.1:3333/api/v1/logout',
+        [
+            'headers' => ['Authorization' => 'Bearer ' . $var]
+        ]);
+
         return $response->getBody();
-
     }
+    public function alltoDo(Request $request){
+        $var = $request->user()->token_adonis;
+
+        $client = new \GuzzleHttp\Client(['base_uri' => 'http://127.0.0.1:3333/api/v1']);
+        $response = $client->post('http://127.0.0.1:3333/api/v1/todo',
+        [
+            'headers' => ['Authorization' => 'Bearer ' . $var]
+        ]);
+
+        return $response->getBody();
     }
 
+}
