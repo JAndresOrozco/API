@@ -26,16 +26,29 @@ Route::post('/alllogin', 'API\AuthController@alllogin');
 // Route::get('/alllogout', 'API\AuthController@alllogout');
 // Route::get('/alltodo', 'API\AuthController@alltoDo');
 Route::middleware('auth:api')->post('/alllogout', 'API\AuthController@alllogout');
-Route::middleware('auth:api', 'isAdmin')->post('/alltodo', 'API\AuthController@alltoDo');
+Route::middleware('auth:api', 'isAdmin')->get('/alltodo', 'API\AuthController@alltoDo');
+Route::post('/test', 'API\AuthController@test');
+
+//LaravelSpaceX
+Route::middleware('auth:api', 'isAdmin')->get('/ultimolanzamiento', 'API\AuthController@ultimolanzamiento');
+Route::middleware('auth:api', 'isAdmin')->get('/capsulas', 'API\AuthController@capsulas');
+Route::middleware('auth:api', 'isAdmin')->get('/historia', 'API\AuthController@historia');
+Route::middleware('auth:api', 'isAdmin')->get('/misiones', 'API\AuthController@misiones');
+Route::middleware('auth:api', 'isAdmin')->get('/rockets', 'API\AuthController@rockets');
+Route::middleware('auth:api', 'isAdmin')->get('/UpcomingLaunches', 'API\AuthController@UpcomingLaunches');
+Route::middleware('auth:api', 'isAdmin')->get('/info', 'API\AuthController@info');
+
+//AdonisMarvel
+Route::middleware('auth:api', 'isAdmin')->get('/marvels', 'API\AuthController@marvels');
 
 
-Route::middleware('auth:api')->get('/result', function (Request $request) {
-    $user = $request->user();
+// Route::middleware('auth:api')->get('/result', function (Request $request) {
+//     $user = $request->user();
 
-    return 'Hola, ' .$user['email'];
+//     return 'Hola, ' .$user['email'];
 
     // kcWcwhBCISyNB5Zk1Q8aBSILg5eDlQr58ye7BVPYL2wR23L20SlMPpqqWxem
-});
+// });
 
 // Route::post('/hola',function(){
 //     $token = Str::random(60);

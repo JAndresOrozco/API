@@ -22,12 +22,24 @@ Route.get('/', () => {
 })
 Route.group(() =>{
 Route.post('/register', 'AuthController.register')
+// Route.post('/register', 'UserController.register')
 Route.post('/login', 'AuthController.login')
 Route.post('/logout', 'AuthController.logout').middleware(['auth']);
-Route.post('/todo', 'AuthController.toDo').middleware(['auth','checkUserIsAdmin']);
+Route.get('/todo', 'AuthController.toDo').middleware(['auth','checkUserIsAdmin']);
 // Route.post('/loginall', 'AuthController.loginall')
+// Route.get('/send', 'AuthController.send').middleware(['auth','checkUserIsAdmin']);
+Route.get('/personajes', 'AuthController.personajes').middleware(['auth:api']);
+Route.get('/series', 'AuthController.series').middleware(['auth:api']);
+Route.get('/comics', 'AuthController.comics').middleware(['auth:api']);
+Route.get('/stories', 'AuthController.stories').middleware(['auth:api']);
 
-}).prefix('api/v1')
+}).prefix('api/v1');
+Route.post('/slack', 'ExamController.slack').middleware(['auth:api']);
+Route.post('/send', 'ExamController.send');
+Route.post('/token', 'ExamController.token');
+Route.post('/signup', 'ExamController.signup');
+Route.post('/login', 'ExamController.login');
+Route.post('/logout', 'ExamController.logout').middleware(['auth:api']);
 
 
 

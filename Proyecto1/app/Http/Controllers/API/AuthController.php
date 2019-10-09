@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+    // public function test(Request $request){
+    //     $variable = $request->get('args');
+    //     $extra = \array_merge($variable['data']);
+    //     return response()->json(['data']);
+    // }
     public function toDo(Request $request){
         return response()->json(\App\User::all(),200);
     }
@@ -35,7 +41,7 @@ class AuthController extends Controller
     }
     public function registro(Request $request){
             $user = new \App\User();
-            $user->name = $request->name;
+            $user->username = $request->username;
             $user->email = $request->email;
             $user->password = bcrypt($request->password); //bcrypt para crear el hash del password
             if($user->save())
@@ -125,15 +131,107 @@ class AuthController extends Controller
         return $response->getBody();
     }
     public function alltoDo(Request $request){
-        $var = $request->user()->token_adonis;
+ $var = $request->user()->token_adonis;
 
-        $client = new \GuzzleHttp\Client(['base_uri' => 'http://127.0.0.1:3333/api/v1']);
-        $response = $client->post('http://127.0.0.1:3333/api/v1/todo',
+        //Ultimo lanzamiento
+        $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/launches/latest']);
+        $response = $client->post('https://api.spacexdata.com/v3/launches/latest',
         [
             'headers' => ['Authorization' => 'Bearer ' . $var]
         ]);
 
-        return $response->getBody();
+
     }
+
+        public function ultimolanzamiento(Request $request){
+            $var = $request->user()->token_adonis;
+            $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/launches/latest']);
+            $response = $client->post('https://api.spacexdata.com/v3/launches/latest',
+            [
+                'headers' => ['Authorization' => 'Bearer ' . $var]
+            ]);
+            return $response->getBody();
+        }
+
+        public function capsulas(Request $request){
+            $var = $request->user()->token_adonis;
+            $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/capsules']);
+        $response = $client->post('https://api.spacexdata.com/v3/capsules',
+        [
+            'headers' => ['Authorization' => 'Bearer ' . $var]
+        ]);
+        return $response->getBody();
+        }
+
+        public function historia(Request $request){
+            $var = $request->user()->token_adonis;
+            $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/history']);
+        $response = $client->post('https://api.spacexdata.com/v3/history',
+        [
+            'headers' => ['Authorization' => 'Bearer ' . $var]
+        ]);
+        return $response->getBody();
+
+        }
+        public function misiones(Request $request){
+            $var = $request->user()->token_adonis;
+
+           $id = $request ->id;
+        $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/missions']);
+        $response = $client->get('https://api.spacexdata.com/v3/missions/'.$id,
+        [
+            'headers' => ['Authorization' => 'Bearer ' . $var]
+        ]);
+        return $response->getBody();
+        }
+
+        public function rockets(Request $request){
+            $var = $request->user()->token_adonis;
+
+           
+        $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/rockets']);
+        $response = $client->get('https://api.spacexdata.com/v3/rockets',
+        [
+            'headers' => ['Authorization' => 'Bearer ' . $var]
+        ]);
+        return $response->getBody();
+        }
+
+        public function UpcomingLaunches(Request $request){
+            $var = $request->user()->token_adonis;
+
+        $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/launches/upcoming']);
+        $response = $client->get('https://api.spacexdata.com/v3/launches/upcoming',
+        [
+            'headers' => ['Authorization' => 'Bearer ' . $var]
+        ]);
+        return $response->getBody();
+        }
+
+
+        public function info(Request $request){
+            $var = $request->user()->token_adonis;
+
+        $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/info']);
+        $response = $client->get('https://api.spacexdata.com/v3/info',
+        [
+            'headers' => ['Authorization' => 'Bearer ' . $var]
+        ]);
+        return $response->getBody();
+        }
+
+        public function marvels(Request $request){
+            $var = $request->user()->token_adonis;
+           
+                   
+            $client = new \GuzzleHttp\Client(['base_uri' => 'https://127.0.0.1:3333/api/v1/marvel']);
+            $response = $client->get('https://127.0.0.1:3333/api/v1/marvel',
+            [
+                       'headers' => ['Authorization' => 'Bearer ' . $var]
+            ]);
+           
+            return $response->getBody();
+        }
+    
 
 }
