@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-// use \App\User;
+use \App\User;
 
 class AuthController extends Controller
 {
@@ -16,6 +16,15 @@ class AuthController extends Controller
     //     $extra = \array_merge($variable['data']);
     //     return response()->json(['data']);
     // }
+
+    public function test(Request $request){
+        // $user = \App\User::find(1);
+        // $user->datosPersonales;
+        $user = \App\User::find(1);
+        $user->datospersonales;
+        return response()->json($user,200);
+    }
+    
     public function toDo(Request $request){
         return response()->json(\App\User::all(),200);
     }
@@ -156,7 +165,7 @@ class AuthController extends Controller
         public function capsulas(Request $request){
             $var = $request->user()->token_adonis;
             $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.spacexdata.com/v3/capsules']);
-        $response = $client->post('https://api.spacexdata.com/v3/capsules',
+        $response = $client->get('https://api.spacexdata.com/v3/capsules',
         [
             'headers' => ['Authorization' => 'Bearer ' . $var]
         ]);

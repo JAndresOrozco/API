@@ -32,6 +32,7 @@ Route.get('/personajes', 'AuthController.personajes').middleware(['auth:api']);
 Route.get('/series', 'AuthController.series').middleware(['auth:api']);
 Route.get('/comics', 'AuthController.comics').middleware(['auth:api']);
 Route.get('/stories', 'AuthController.stories').middleware(['auth:api']);
+Route.post('/test', 'AuthController.test');
 
 }).prefix('api/v1');
 Route.post('/slack', 'ExamController.slack').middleware(['auth:api']);

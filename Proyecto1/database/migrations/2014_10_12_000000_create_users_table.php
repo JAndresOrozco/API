@@ -11,26 +11,20 @@ class CreateUsersTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+     public function up()
+     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('username');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('api_token', 80)->unique()->nullable()->default(null);
+            $table->string('adonis_token')->unique()->nullable()->default(null);
             $table->string('password');
-            $table->string('api_token', 80)
-                        ->unique()
-                        ->nullable()
-                        ->default(null);
-            $table->string('token_adonis')
-                        ->unique()
-                        ->nullable()
-                        ->default(null);
             $table->rememberToken();
             $table->timestamps();
         });
-    }
+     }
 
     /**
      * Reverse the migrations.

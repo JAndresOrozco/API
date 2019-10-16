@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\Models\InformacionPersonal;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -39,5 +39,8 @@ class User extends Authenticatable
 
     public function isAdmin(){
         return $this->id==1?true:false;  //operador terniario
+    }
+    public function datosPersonales() {
+        return $this->hasMany('App\Models\InformacionPersonal\DatosPersonales');
     }
 }

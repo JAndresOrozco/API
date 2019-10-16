@@ -27,6 +27,7 @@ Route::post('/alllogin', 'API\AuthController@alllogin');
 // Route::get('/alltodo', 'API\AuthController@alltoDo');
 Route::middleware('auth:api')->post('/alllogout', 'API\AuthController@alllogout');
 Route::middleware('auth:api', 'isAdmin')->get('/alltodo', 'API\AuthController@alltoDo');
+
 Route::post('/test', 'API\AuthController@test');
 
 //LaravelSpaceX

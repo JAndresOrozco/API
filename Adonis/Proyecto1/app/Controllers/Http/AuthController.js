@@ -2,6 +2,7 @@
 
 const User = use('App/Models/User');
 var Client = require('node-rest-client').Client;
+const Database = use('Database')
 const user = new User();
 class AuthController {
 
@@ -73,29 +74,33 @@ class AuthController {
         return response.status(200).json(result)
     }
 
-    async personajes({response,request}){
-      let token = '595a727740be5712eb2f1b8919a9e6eb';
-      let hash = '02e51458a2a328bbf58a87d961b28916';
-      
-          const args = {               
-              
-              headers: { 
-                  "Content-Type": "application/json"
-              }
-          };
-  
-          const client = new Client();  
-  
-          let enviorequest = function() {
-              return new Promise(function(resolve, reject) {
-                  client.get("https://gateway.marvel.com:443/v1/public/characters?ts=1"+"&apikey="+token+"&hash="+hash, args, function(data) {
-                      resolve(data);
-                  });
+    async personajes({request, response}) {
+      let obj = request.all();
+
+      const args = {
+          headers: { 
+              "Content-Type": "application/json"
+          }
+      };
+
+      const client = new Client()
+      let apikey = "e211b4941f8a2f99b907a270cd6210b6"
+      let hash = "36629bda9a0995adf927a580b3e443ea"
+      let personaje = obj.personaje
+
+      let enviorequest = function() {
+          return new Promise(function(resolve, reject) {
+              client.get("http://gateway.marvel.com/v1/public/characters?ts=1&name="+personaje+"&apikey="+apikey+"&hash="+hash, args, function(data) {
+                  resolve(data);
               });
-          };
-  
-          let result = await enviorequest();
-      return response.status(200).json(result)
+          });
+      };
+
+      let result = await enviorequest();
+      
+      let name = result.data.results[0]
+
+      return response.status(200).json(name);
   }
   
   async series({response,request}){
@@ -147,6 +152,17 @@ async stories({response,request}){
       let result = await enviorequest();
   return response.status(200).json(result)
 }
+
+
+    async test({response}){
+    // const user = await User.find(3)
+    // const datos = await user.datosPersonales().fetch();
+    // user.datos_personales = datos;
+    
+    const user = await Database.table('users').select('*').innerJoin('datos_personales as da','da.user_id','users.id')
+
+    return response.status(200).json(user)
+    }
 
     
     

@@ -38,6 +38,9 @@ class User extends Model {
     return this.id==1?true:false;  //operador terniario
     
   }
+  datosPersonales() {
+    return this.hasOne('App/Models/DatosPersonale');
+  }
 }
 
 module.exports = User
