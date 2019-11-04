@@ -27,9 +27,13 @@ Route::post('/alllogin', 'API\AuthController@alllogin');
 // Route::get('/alltodo', 'API\AuthController@alltoDo');
 Route::middleware('auth:api')->post('/alllogout', 'API\AuthController@alllogout');
 Route::middleware('auth:api', 'isAdmin')->get('/alltodo', 'API\AuthController@alltoDo');
-
+Route::post('/validar','API\AuthController@validar');
 Route::post('/test', 'API\AuthController@test');
 
+//Android
+Route::post('/registroandroid','API\DataController@registro');
+Route::post('/log','API\DataController@log');
+Route::middleware(['auth:api','isAdmin'])->post('/lista', 'API\AuthController@lista');
 //LaravelSpaceX
 Route::middleware('auth:api', 'isAdmin')->get('/ultimolanzamiento', 'API\AuthController@ultimolanzamiento');
 Route::middleware('auth:api', 'isAdmin')->get('/capsulas', 'API\AuthController@capsulas');

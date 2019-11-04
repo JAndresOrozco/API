@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use \App\User;
 
 class AuthController extends Controller
@@ -16,6 +17,23 @@ class AuthController extends Controller
     //     $extra = \array_merge($variable['data']);
     //     return response()->json(['data']);
     // }
+    public function validar(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'nombre' => 'required|numeric',
+            'email' => 'email',
+            'password' => 'required',
+            "confirmacion" => "required|same:password"
+
+        ],[
+            "nombre.required" => "Este campo debe ser obligatorio",
+            "nombre.required" => "Este campo debe de ser numerico",
+        ]);
+        if($validator->fails()){
+            return response()->json(["errors"=>$validator->errors()],422);
+        }
+        return response()->json($request->all(),200);
+    }
 
     public function test(Request $request){
         // $user = \App\User::find(1);

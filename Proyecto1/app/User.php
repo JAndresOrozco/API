@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
 
     public function isAdmin(){
-        return $this->id==1?true:false;  //operador terniario
+        return $this->id >=1?true:false;  //operador terniario
     }
     public function datosPersonales() {
         return $this->hasMany('App\Models\InformacionPersonal\DatosPersonales');
